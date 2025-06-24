@@ -1,21 +1,21 @@
 'use client'
 
+import {createTeam} from "@/service/team";
+import {Team} from "@/model/team";
 import React, {FormEvent, useState} from 'react';
 import InputField from "@/components/form/input-field";
-import SelectPriority from "@/components/select/select-priority";
-import SelectStatus from '../select/select-status';
 import {Button} from "@/components/ui/button";
 import Modal from "@/components/popup/modal";
-import {createProject} from "@/service/project";
-import {Priority, ProjectStatus, ProjectType} from "@/model/project";
-import Message from "@/components/text/message";
+import {ApiResponse} from "@/model/api-response";
 import {toast} from "sonner";
+import Message from "@/components/text/message";
+import {useRouter} from "next/navigation";
 
-interface CreateProjectFormProps {
+interface CreateTeamFormProps {
     onClose: () => void;
 }
 
-const CreateProjectForm = ({onClose}: CreateProjectFormProps) => {
+const CreateTeamForm = ({onClose}: CreateTeamFormProps) => {
     const [modalIsShown, setModalIsShown] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -24,37 +24,29 @@ const CreateProjectForm = ({onClose}: CreateProjectFormProps) => {
 
         const formData = new FormData(event.currentTarget);
 
-        const title = formData.get('title') as string;
-        const type = formData.get('type') as ProjectType;
-        const startDate = new Date(formData.get('start_date') as string).toISOString() as string;
-        const endDate = new Date(formData.get('end_date') as string).toISOString() as string;
-        const description = formData.get('description') as string;
-        const priority = formData.get('priority') as Priority;
-        const status = formData.get('status') as ProjectStatus;
-
         try {
-            const {success, error} = await createProject({
-                title,
-                type,
-                startDate,
-                endDate,
+            const name = formData.get('name') as string;
+            const description = formData.get('description') as string;
+
+            const response = await createTeam({
+                name,
                 description,
-                priority,
-                status,
             })
 
+            const result: ApiResponse<Team> = await response.json();
 
-            if (!success) {
-                setError(error || 'An unexpected error occurred')
+            if (!response.ok) {
+                setError(result.message || 'An unexpected error occurred')
                 return
             }
 
-            toast("Event has been created", {
+            toast("Team has been created", {
                 description: Intl.DateTimeFormat('en-US', {
                     dateStyle: "full",
                     timeStyle: "long",
                 }).format(new Date()),
             })
+
             onClose();
         } catch (error) {
             setError('An unexpected error occurred')
@@ -77,28 +69,19 @@ const CreateProjectForm = ({onClose}: CreateProjectFormProps) => {
                 </div>
             </Modal>
             <form className='p-3' onSubmit={submitHandler}>
-                <h2 className='font-bold mb-4'>Create Project</h2>
-                <div className='flex gap-2 justify-between'>
-                    <InputField name='title'>Project Title</InputField>
-                    <InputField name='type'>Project Type</InputField>
-                    <InputField name='start_date' type='date'>Start Date</InputField>
-                    <InputField name='end_date' type='date'>End Date</InputField>
-                </div>
-                <InputField name='description' type='textarea' placeholder='Describe about this project'>Project
+                <h2 className='font-bold mb-4 text-xl'>Create team</h2>
+                <InputField name='name'>Team Name</InputField>
+                <InputField name='description' type='textarea' placeholder='Describe about this team'>Team
                     Description</InputField>
-                <div className='flex gap-2'>
-                    <SelectPriority name='priority'/>
-                    <SelectStatus name='status'/>
-                </div>
                 {error && <Message>{error}</Message>}
                 <div className='mt-4 flex items-center justify-end gap-2'>
                     <Button type='submit' className='text-white bg-blue-600 hover:bg-blue-800'>Create</Button>
                     <Button type='button' className='text-blue-600 bg-blue-50 hover:bg-blue-200'
-                            onClick={() => setModalIsShown(true)}>Delete</Button>
+                            onClick={() => setModalIsShown(true)}>Cancel</Button>
                 </div>
             </form>
         </>
     );
 };
 
-export default CreateProjectForm;
+export default CreateTeamForm;

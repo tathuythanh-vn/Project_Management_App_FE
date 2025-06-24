@@ -11,11 +11,6 @@ import LoadingSpinner from "@/components/loading/loading-spinner";
 const RegisterPage = () => {
     const router = useRouter();
     const [error, setError] = useState<string>('');
-    const firstInput = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        firstInput.current?.focus();
-    }, [firstInput]);
 
     const {register, isLoading} = useAuth();
 
@@ -47,7 +42,7 @@ const RegisterPage = () => {
                 style={{width: '320px'}}
                 name='email'
                 placeholder={'user@gmail.com'}
-                ref={firstInput}
+                isFocused
             >
                 Email
             </InputField>

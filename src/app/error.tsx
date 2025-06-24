@@ -16,10 +16,10 @@ export default function GlobalError({
     }, [error])
 
     return (
-        <body>
+        <div>
         <div className="flex min-h-screen flex-col items-center justify-center">
             <ErrorPage/>
         </div>
-        </body>
+        </div>
     )
 } 

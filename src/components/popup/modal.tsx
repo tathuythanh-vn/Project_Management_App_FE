@@ -1,4 +1,4 @@
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 
 interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
     children: ReactNode;

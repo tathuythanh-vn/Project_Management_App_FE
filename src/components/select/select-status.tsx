@@ -16,33 +16,62 @@ import {
 
 interface SelectStatusProps {
     name: string;
+    defaultValue?: string;
 }
 
-const SelectStatus = ({name}: SelectStatusProps) => {
+export const statusOptions = [
+    {
+        value: 'todo',
+        label: 'To Do',
+        icon: Circle,
+        color: 'text-gray-500',
+        hover: 'hover:bg-gray-100',
+        animate: false
+    },
+    {
+        value: 'in_progress',
+        label: 'In Progress',
+        icon: Loader,
+        color: 'text-blue-600',
+        hover: 'hover:bg-blue-100',
+        animate: true
+    },
+    {
+        value: 'in_review',
+        label: 'In Review',
+        icon: FileCheck,
+        color: 'text-yellow-600',
+        hover: 'hover:bg-yellow-100',
+        animate: false
+    },
+    {
+        value: 'completed',
+        label: 'Completed',
+        icon: CheckCircle,
+        color: 'text-green-600',
+        hover: 'hover:bg-green-100',
+        animate: false
+    }
+];
+
+const SelectStatus = ({name, defaultValue}: SelectStatusProps) => {
     return (
-        <Select name={name}>
+        <Select name={name} defaultValue={defaultValue ? defaultValue : statusOptions[0].value}>
             <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="To Do"/>
+                <SelectValue placeholder="Todo"/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value="todo" className="flex items-center gap-2 text-gray-500 hover:bg-gray-100">
-                        <Circle className="w-4 h-4 text-gray-500"/>
-                        To Do
-                    </SelectItem>
-                    <SelectItem value="in_progress" className="flex items-center gap-2 text-blue-600 hover:bg-blue-100">
-                        <Loader className="w-4 h-4 text-blue-600 animate-spin-slow"/>
-                        In Progress
-                    </SelectItem>
-                    <SelectItem value="in_review"
-                                className="flex items-center gap-2 text-yellow-600 hover:bg-yellow-100">
-                        <FileCheck className="w-4 h-4 text-yellow-600"/>
-                        In Review
-                    </SelectItem>
-                    <SelectItem value="completed" className="flex items-center gap-2 text-green-600 hover:bg-green-100">
-                        <CheckCircle className="w-4 h-4 text-green-600"/>
-                        Completed
-                    </SelectItem>
+                    {statusOptions.map(({value, label, icon: Icon, color, hover, animate}) => (
+                        <SelectItem
+                            key={value}
+                            value={value}
+                            className={`flex items-center gap-2 ${color} ${hover}`}
+                        >
+                            <Icon className={`w-4 h-4 ${color} ${animate ? 'animate-spin-slow' : ''}`}/>
+                            {label}
+                        </SelectItem>
+                    ))}
                 </SelectGroup>
             </SelectContent>
         </Select>

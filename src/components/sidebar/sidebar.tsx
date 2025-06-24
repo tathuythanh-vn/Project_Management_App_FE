@@ -10,7 +10,7 @@ import {
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem,
+    SidebarMenuItem, SidebarTrigger,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
 import LogoutButton from "@/components/dashboard/logout-btn";
@@ -19,7 +19,7 @@ import {CheckSquare, FolderKanban, Home, Inbox, Target, Users} from "lucide-reac
 import UserCard from "@/components/sidebar/user-card";
 import {cn} from "@/lib/utils";
 import {useAuth} from "@/context/auth-context";
-import {Modal} from "@/components/popup/modal";
+import React from "react";
 
 const items = {
     user: [
@@ -111,7 +111,10 @@ export function AppSidebar() {
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
+                    <SidebarGroupLabel className={'flex items-center justify-between'}>
+                        Application
+                        {/*<SidebarTrigger className={'cursor-pointer transition-all z-50 bg-transparent duration-500 hover:scale-110'}/>*/}
+                    </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items[currentUser].map((item) => {

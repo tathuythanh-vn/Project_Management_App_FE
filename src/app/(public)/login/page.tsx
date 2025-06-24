@@ -10,11 +10,6 @@ import LoadingSpinner from '@/components/loading/loading-spinner';
 
 const LoginPage = () => {
     const router = useRouter();
-    const firstInput = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        firstInput.current?.focus();
-    }, [firstInput]);
 
     const [error, setError] = React.useState<string>('')
 
@@ -43,10 +38,10 @@ const LoginPage = () => {
     return (
         <form className='max-w-sm shadow-sm bg-white p-6 mx-auto' onSubmit={loginHandler}>
             <h2 className='mb-4 text-2xl font-bold'>Login</h2>
-            <InputField style={{width: '320px'}} ref={firstInput} name='email'
-                        placeholder='user@gmail.com'>Email</InputField>
+            <InputField style={{width: '320px'}} name='email'
+                        placeholder='user@gmail.com' isFocused={true}>Email</InputField>
             <InputField name='password' placeholder='passsword#092'
-                        type="password">Password</InputField>
+                        type="password" isFocused={false}>Password</InputField>
 
             {error && <Message>{error}</Message>}
 

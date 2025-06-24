@@ -11,33 +11,59 @@ import {Circle, Activity, Flame, AlertTriangle} from "lucide-react";
 
 interface SelectPriorityProps {
     name: string;
+    defaultValue?: string;
 }
 
-const SelectPriority = ({name}: SelectPriorityProps) => {
+export const priorities = [
+    {
+        value: 'low',
+        label: 'Low',
+        color: '#00a63e',
+        hoverBg: 'hover:bg-green-100',
+        icon: Circle
+    },
+    {
+        value: 'medium',
+        label: 'Medium',
+        color: '#d08700',
+        hoverBg: 'hover:bg-yellow-100',
+        icon: Activity
+    },
+    {
+        value: 'high',
+        label: 'High',
+        color: '#f54900',
+        hoverBg: 'hover:bg-orange-100',
+        icon: Flame
+    },
+    {
+        value: 'critical',
+        label: 'Critical',
+        color: '#c10007',
+        hoverBg: 'hover:bg-red-100',
+        icon: AlertTriangle,
+        font: 'font-semibold'
+    }
+];
+
+const SelectPriority = ({name, defaultValue}: SelectPriorityProps) => {
     return (
-        <Select name={name}>
+        <Select name={name} defaultValue={defaultValue || priorities[0].value}>
             <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Low"/>
+                <SelectValue placeholder="Select priority" />
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>
-                    <SelectItem value="low" className="flex items-center gap-2 text-[#00a63e] hover:bg-green-100">
-                        <Circle className="w-4 h-4" color="#00a63e"/>
-                        Low
-                    </SelectItem>
-                    <SelectItem value="medium" className="flex items-center gap-2 hover:bg-yellow-100">
-                        <Activity className="w-4 h-4" color='#d08700'/>
-                        Medium
-                    </SelectItem>
-                    <SelectItem value="high" className="flex items-center gap-2 text-[#f54900] hover:bg-orange-100">
-                        <Flame className="w-4 h-4" color='#f54900'/>
-                        High
-                    </SelectItem>
-                    <SelectItem value="critical"
-                                className="flex items-center gap-2 text-[#c10007] font-semibold hover:bg-red-100">
-                        <AlertTriangle className="w-4 h-4" color='#c10007'/>
-                        Critical
-                    </SelectItem>
+                    {priorities.map(({ value, label, color, hoverBg, icon: Icon, font }) => (
+                        <SelectItem
+                            key={value}
+                            value={value}
+                            className={`flex items-center gap-2 text-[${color}] ${font || ''} ${hoverBg}`}
+                        >
+                            <Icon className="w-4 h-4" color={color} />
+                            {label}
+                        </SelectItem>
+                    ))}
                 </SelectGroup>
             </SelectContent>
         </Select>

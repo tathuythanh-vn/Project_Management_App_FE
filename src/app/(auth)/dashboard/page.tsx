@@ -47,41 +47,37 @@ const DashboardScreen = () => {
 
 
     return (
-        <main className="w-full h-full bg-zinc-50 p-4">
-            <div className="flex items-center justify-start gap-4 w-full">
-                <SidebarTrigger/>
-                <Header/>
-            </div>
-            <h1 className='mb-6 mt-4 pl-4 text-3xl'>Good morning, Kevin</h1>
-            <div className='grid grid-cols-1 md:grid-cols-4 gap-4 my-6'>
-                {stats.map(item => (
-                    <Card key={item.id}>
-                        <CardHeader>
-                            <div className='flex items-center justify-between gap-4 w-full'>
-                                <div>
-                                    <CardTitle>{item.label}</CardTitle>
-                                    <CardDescription
-                                        className='text-2xl font-bold text-stone-800'>{item.total}</CardDescription>
-                                    <CardDescription className='text-gray-500 text-sm'>100 last
-                                        month</CardDescription>
+            <>
+                <h1 className='mb-6 mt-4 pl-4 text-3xl'>Good morning, Kevin</h1>
+                <div className='grid grid-cols-1 md:grid-cols-4 gap-4 my-6'>
+                    {stats.map(item => (
+                        <Card key={item.id}>
+                            <CardHeader>
+                                <div className='flex items-center justify-between gap-4 w-full'>
+                                    <div>
+                                        <CardTitle>{item.label}</CardTitle>
+                                        <CardDescription
+                                            className='text-2xl font-bold text-stone-800'>{item.total}</CardDescription>
+                                        <CardDescription className='text-gray-500 text-sm'>100 last
+                                            month</CardDescription>
+                                    </div>
+                                    <div
+                                        className={`flex items-center justify-center w-12 h-12 rounded-full text-white ${item.bgColor}`}>
+                                        {item.icon}
+                                    </div>
                                 </div>
-                                <div
-                                    className={`flex items-center justify-center w-12 h-12 rounded-full text-white ${item.bgColor}`}>
-                                    {item.icon}
-                                </div>
-                            </div>
 
-                        </CardHeader>
-                    </Card>
-                ))}
-            </div>
-            <section className="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
-                <BoxItem title='Recents'/>
-                <BoxItem title='My Work'/>
-                <BoxItem title='Recents'/>
-                <BoxItem title='Assigned to me'/>
-            </section>
-        </main>
+                            </CardHeader>
+                        </Card>
+                    ))}
+                </div>
+                <section className="grid grid-cols-1 md:grid-cols-2 w-full gap-8">
+                    <BoxItem title='Recents'/>
+                    <BoxItem title='My Work'/>
+                    <BoxItem title='Recents'/>
+                    <BoxItem title='Assigned to me'/>
+                </section>
+            </>
     );
 };
 
