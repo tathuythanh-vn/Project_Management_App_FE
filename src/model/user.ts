@@ -14,6 +14,8 @@ export const PublicUserSchema = z.object({
     avatar: z.string(),
     active: z.boolean(),
     lastLogin: z.string(), // ISO date string
+    phone: z.string()
+        .regex(/^[0-9]+$/, { message: "Phone number must contain only digits" }),
     createdAt: z.string(),
     updatedAt: z.string(),
     projects: z.array(

@@ -20,7 +20,7 @@ const TeamCard = ({team}: { team: Team }) => {
             <div className={'bg-white p-4 border-b border-gray-200'}>
                 <div className={'flex items-center gap-x-4 mb-4'}>
                     <Avatar>
-                        <AvatarImage src={team.owner.fullName}/>
+                        <AvatarImage src={`${process.env.NEXT_PUBLIC_FILE_URL}${team.owner.avatar}`}/>
                         <AvatarFallback>{team.owner.fullName.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div>

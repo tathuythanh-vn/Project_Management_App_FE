@@ -28,7 +28,7 @@ const TeamScreen = () => {
     }
 
     if (teams?.length === 0) {
-        content = <p className='text-lg'>You don't have any teams. Create one!</p>
+        content = <p className='text-lg'>You don't have any teams.</p>
     }
 
     return (

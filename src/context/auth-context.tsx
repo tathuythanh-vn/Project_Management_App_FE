@@ -1,11 +1,11 @@
 'use client'
 import {createContext, ReactNode, useContext, useEffect, useState} from "react";
 import {Role} from "@/model/auth";
-import {notFound, useRouter} from "next/navigation";
-import ErrorPage from "@/components/error/error-page";
+import {useRouter} from "next/navigation";
 
 type User = {
     userId: string;
+    userName: string;
     userRole: Role;
 }
 
@@ -18,7 +18,7 @@ interface AuthContextType {
     user: User | undefined;
     login: (email: string, password: string) => Promise<AuthResult>;
     logout: () => Promise<AuthResult>;
-    register: (email: string, password: string, name: string) => Promise<AuthResult>;
+    register: (email: string, password: string, name: string, phone: string, role?: Role, active?: boolean) => Promise<AuthResult>;
     isAuthenticated: boolean;
     isLoading: boolean;
 }
@@ -58,6 +58,7 @@ const AuthProvider = ({children}: { children: ReactNode }) => {
                 const {user}: {
                     user: {
                         userId: string;
+                        userName: string;
                         userRole: Role;
                     }
                 } = await response.json();
@@ -106,6 +107,7 @@ const AuthProvider = ({children}: { children: ReactNode }) => {
             const {user}: {
                 user: {
                     userId: string;
+                    userName: string;
                     userRole: Role;
                 }
             } = await responseMe.json();
@@ -123,7 +125,7 @@ const AuthProvider = ({children}: { children: ReactNode }) => {
         }
     }
 
-    const register = async (email: string, password: string, name: string): Promise<AuthResult> => {
+    const register = async (email: string, password: string, name: string, phone: string, role?: Role, active?: boolean): Promise<AuthResult> => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, {
                 method: 'POST',
@@ -131,7 +133,7 @@ const AuthProvider = ({children}: { children: ReactNode }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({email, password, name}),
+                body: JSON.stringify({email, password, name, phone, role: role ?? Role.USER, active: active ?? true}),
             })
 
             const data = await response.json()
@@ -155,6 +157,7 @@ const AuthProvider = ({children}: { children: ReactNode }) => {
             const {user}: {
                 user: {
                     userId: string;
+                    userName: string;
                     userRole: Role;
                 }
             } = await responseMe.json();

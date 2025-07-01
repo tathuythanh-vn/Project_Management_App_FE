@@ -20,8 +20,9 @@ const RegisterPage = () => {
         const email = (form.elements.namedItem('email') as HTMLInputElement)?.value;
         const password = (form.elements.namedItem('password') as HTMLInputElement)?.value;
         const name = (form.elements.namedItem('name') as HTMLInputElement)?.value;
+        const phone = (form.elements.namedItem('phone') as HTMLInputElement)?.value;
         try {
-            const {success, error}: AuthResult = await register(email, password, name)
+            const {success, error}: AuthResult = await register(email, password, name, phone)
 
             if (!success) {
                 setError(error || 'An unexpected error occurred')
@@ -42,7 +43,7 @@ const RegisterPage = () => {
                 style={{width: '320px'}}
                 name='email'
                 placeholder={'user@gmail.com'}
-                isFocused
+                isFocused={true}
             >
                 Email
             </InputField>
@@ -53,6 +54,12 @@ const RegisterPage = () => {
                 Full Name
             </InputField>
             <InputField
+                name='phone'
+                placeholder={'0123456789'}
+            >
+                Phone Number
+            </InputField>
+            <InputField
                 name='password'
                 placeholder={'strongPassword@234#'}
                 type='password'
@@ -60,7 +67,7 @@ const RegisterPage = () => {
                 Password
             </InputField>
 
-            {error && <Message type='error'>{error}</Message>}
+            {error && <Message className={'mt-4'}>{error}</Message>}
 
             <Button
                 type='submit'

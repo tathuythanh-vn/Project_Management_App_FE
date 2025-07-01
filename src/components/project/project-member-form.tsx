@@ -47,6 +47,7 @@ const ProjectMemberForm = ({
             if (!response.ok) throw new Error(data.message)
 
             toast.success(isEdit ? "Project member updated" : "Project member added")
+
             onClose()
             onConfirm()
         } catch (e) {

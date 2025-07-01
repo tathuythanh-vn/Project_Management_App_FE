@@ -16,7 +16,7 @@ const EditProjectBtn = ({project, children}: EditProjectBtnProps) => {
 
     return (
         <>
-            <Modal isOpened={modalIsOpened} onClose={() => setModalIsOpened(false)}>
+            <Modal isOpened={modalIsOpened} onClose={() => setModalIsOpened(false)} style={{width: 'fit-content', maxWidth: '95%'}}>
                 <CreateProjectForm onClose={() => setModalIsOpened(false)} project={project}/>
             </Modal>
             <span className={'cursor-pointer'} onClick={() => setModalIsOpened(true)}>

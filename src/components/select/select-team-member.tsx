@@ -29,7 +29,7 @@ const SelectTeamMember = ({name, defaultValue, project}: SelectTeamMemberProps) 
     return (
         <Select name={name}>
             <SelectTrigger className="w-full bg-[#F9FAFB] p-2 border-0">
-                <SelectValue placeholder="Todo"/>
+                <SelectValue placeholder="Choose a team member"/>
             </SelectTrigger>
             <SelectContent>
                 <SelectGroup>

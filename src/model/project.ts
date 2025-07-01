@@ -52,7 +52,6 @@ const ProjectFormSchema = z.object({
     endDate: z.string().min(1, "End date is required"),
     status: StatusSchema,
     priority: PrioritySchema,
-    type: TypeSchema,
     managerId: ObjectIdSchema.optional(),
     teamMembers: z.array(z.any()).optional(),
     assets: z.array(z.any()).optional(),
@@ -69,6 +68,17 @@ const ProjectFormSchema = z.object({
     message: "End date must be after start date",
     path: ["endDate"]
 });
+
+const ProjectProgressSchema = z.object({
+    _id: ObjectIdSchema,
+    title: z.string(),
+    status: StatusSchema,
+    totalTasks: z.number(),
+    completedTasks: z.number(),
+    progress: z.number(),
+})
+
+export type ProjectProgress = z.infer<typeof ProjectProgressSchema>;
 
 
 export type Project = z.infer<typeof ProjectFormSchema>;

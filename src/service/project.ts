@@ -13,6 +13,17 @@ export const createProject = async (projectData: Project) => {
     })
 }
 
+export const updateProject = async (id: string, projectData: Partial<Project>) => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/${id}`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(projectData),
+    })
+}
+
 export const getProjects = async () => {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project`, {
         method: 'GET',
@@ -64,6 +75,26 @@ export const editProjectMember = async (userId: string, role: string, projectId:
 export const deleteProjectMember = async (projectId: string, userId: string) => {
     return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/${projectId}/member/${userId}`, {
         method: 'DELETE',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+}
+
+export const deleteProject = async (projectId: string) => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/${projectId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+}
+
+export const getProjectStatistics = async () => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/project/statistics`, {
+        method: 'GET',
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',

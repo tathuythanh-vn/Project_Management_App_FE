@@ -15,11 +15,12 @@ import {
 import Link from "next/link";
 import LogoutButton from "@/components/dashboard/logout-btn";
 import {notFound, usePathname} from "next/navigation";
-import {CheckSquare, FolderKanban, Home, Inbox, Target, Users} from "lucide-react";
+import {CheckSquare, Folder, FolderKanban, Home, Inbox, Target, Users} from "lucide-react";
 import UserCard from "@/components/sidebar/user-card";
 import {cn} from "@/lib/utils";
 import {useAuth} from "@/context/auth-context";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {PublicUser} from "@/model/user";
 
 const items = {
     user: [
@@ -27,6 +28,11 @@ const items = {
             title: "Dashboard",
             url: "/dashboard",
             icon: Home,
+        },
+        {
+            title: "Team",
+            url: "/team",
+            icon: Users,
         },
         {
             title: "Project",
@@ -43,6 +49,12 @@ const items = {
             url: "/inbox",
             icon: Inbox,
         },
+        {
+            title: "File Library",
+            url: "/file",
+            icon: Folder,
+        },
+
     ],
     manager: [
         {
@@ -71,9 +83,9 @@ const items = {
             icon: Inbox,
         },
         {
-            title: "Goal",
-            url: "/goal",
-            icon: Target,
+            title: "File Library",
+            url: "/file",
+            icon: Folder,
         },
     ],
     admin: [
@@ -84,7 +96,7 @@ const items = {
         },
         {
             title: "User Management",
-            url: "/users",
+            url: "/user",
             icon: Users,
         },
         {
@@ -92,11 +104,17 @@ const items = {
             url: "/inbox",
             icon: Inbox,
         },
+        {
+            title: "File Library",
+            url: "/file",
+            icon: Folder,
+        },
     ]
 };
 
 export function AppSidebar() {
     const pathname = usePathname();
+
     const {user} = useAuth();
     const currentUser = user!.userRole
 

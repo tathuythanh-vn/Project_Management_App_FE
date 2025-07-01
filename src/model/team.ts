@@ -27,3 +27,12 @@ export const TeamSchema = TeamFormSchema.extend({
 
 export type Team = z.infer<typeof TeamSchema>;
 
+const TeamMemberStatSchema = z.object({
+    userId: PublicUserSchema,
+    taskCounts: z.number(),
+    completedTask: z.number(),
+    projectCount: z.number(),
+});
+
+export type TeamMemberStat = z.infer<typeof TeamMemberStatSchema>;
+

@@ -28,7 +28,7 @@ const ProjectScreen = () => {
     }
 
     if (projects?.length === 0) {
-        content = <p className='text-lg'>You don't have any project. Create one!</p>
+        content = <p className='text-lg'>You don't have any project.</p>
     }
 
     return (

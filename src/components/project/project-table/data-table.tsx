@@ -1,15 +1,18 @@
 "use client"
 
-import { useState } from "react" // Add this import
+import { useState } from "react"
 
 import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
     getSortedRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
     SortingState,
     useReactTable,
-} from "@tanstack/react-table"
+    ColumnFiltersState,
+} from "@tanstack/react-table";
 
 import {
     Table,
@@ -29,22 +32,48 @@ export function DataTable<TData, TValue>({
                                              columns,
                                              data,
                                          }: DataTableProps<TData, TValue>) {
+
     const [sorting, setSorting] = useState<SortingState>([])
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [pagination, setPagination] = useState({
+        pageIndex: 0,
+        pageSize: 5,
+    });
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
         onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        onPaginationChange: setPagination,
         state: {
             sorting,
+            columnFilters,
+            pagination,
         },
     })
 
     return (
-        <div className="rounded-md bg-white shadow-sm">
-            <Table>
+        <div className="rounded-md border-0">
+
+            {/*Filter*/}
+            <div className={'mb-4 p-2 border rounded-md shadow-xs w-fit flex justify-end bg-white'}>
+                <input
+                    type="text"
+                    placeholder="Filter by name..."
+                    value={(table.getColumn("fullName")?.getFilterValue() as string) ?? ""}
+                    onChange={(e) =>
+                        table.getColumn("fullName")?.setFilterValue(e.target.value)
+                    }
+                    className="w-fit focus:outline-none text-base"
+                />
+            </div>
+
+            <Table className={'bg-white rounded-md border-0 shadow-sm'}>
                 <TableHeader className={'p-4 font-semibold text-xl'}>
                     {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id}>
@@ -87,6 +116,31 @@ export function DataTable<TData, TValue>({
                     )}
                 </TableBody>
             </Table>
+
+            {/*Pagination*/}
+            <div className="flex items-center justify-between px-4 py-2 mt-4 bg-white rounded-md shadow-sm">
+                <div className="text-sm text-muted-foreground">
+                    Page {table.getState().pagination.pageIndex + 1} of{" "}
+                    {table.getPageCount()}
+                </div>
+                <div className="space-x-2">
+                    <button
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        Previous
+                    </button>
+                    <button
+                        className="px-3 py-1 border rounded disabled:opacity-50"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+
         </div>
     )
 }

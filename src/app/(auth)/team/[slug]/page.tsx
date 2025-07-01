@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {ArrowLeft} from "lucide-react";
-import {Team} from "@/model/team";
-import {getTeam} from "@/service/team";
+import {Member, Team} from "@/model/team";
+import {getTeam, getTeamMembers} from "@/service/team";
 import AvatarGroup from "@/components/avatar-group";
 import TeamTable from "@/components/team/team-table";
 import {Project} from "@/model/project";
@@ -10,24 +10,16 @@ import ProjectCard from "@/components/project/project-card";
 const TeamDetailScreen = async ({params}: { params: Promise<{ slug: string }> }) => {
     const {slug} = await params;
 
-    let team: Team | undefined = undefined;
-    let projects: Project[] | undefined = undefined;
-
-    try {
-        const response = await getTeam(slug);
-        const {data} = await response.json();
-        projects = data;
-    } catch (error) {
-        console.error(error)
-    }
-
-    try {
-        const response = await getTeam(slug);
-        const {data} = await response.json();
-        team = data;
-    } catch (error) {
-        console.error(error)
-    }
+    const [team, members] = await Promise.all([
+        getTeam(slug).then(res => res.json()).then(res => res.data),
+        getTeamMembers(slug)
+            .then(res => {
+                return res.json();
+            })
+            .then(res => {
+                return res.data?.data || [];
+            })
+    ]);
 
     if (!team) {
         return <div className="p-6 text-center text-gray-500">Failed to load team.</div>;
@@ -41,10 +33,7 @@ const TeamDetailScreen = async ({params}: { params: Promise<{ slug: string }> })
             </div>
             <h1 className='text-2xl font-semibold mb-2'>{team.name}</h1>
             <p className={'mb-4'}>{team.description}</p>
-            <AvatarGroup user={team.members!} visibleCount={5} />
-            {/*{projects?.map((project: Project) => (*/}
-            {/*    <ProjectCard key={project._id} {...project}/>*/}
-            {/*))}*/}
+            <AvatarGroup user={members} visibleCount={4} />
             <TeamTable slug={slug} />
         </div>
     );

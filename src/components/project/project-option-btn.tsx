@@ -20,7 +20,10 @@ type ViewMode = 'member' | 'task';
 
 const ProjectOptionBtn = ({slug, project}: ProjectOptionBtnProps) => {
     const [options, setOptions] = useState<ViewMode>('member');
-    const [refetchFn, setRefetchFn] = useState<() => void>(() => () => {});
+    const [refetchFn, setRefetchFn] = useState<() => void>(() => () => {
+    });
+    const [refetchTask, setRefetchTask] = useState<() => void>(() => () => {
+    });
 
 
     const searchParams = useSearchParams()
@@ -53,7 +56,12 @@ const ProjectOptionBtn = ({slug, project}: ProjectOptionBtnProps) => {
                         onClick={() => handleModeChange('task')}><SquareCheckBig/>Tasks</Button>
                 </div>
                 <div className={'flex gap-2'}>
-                    <CreateTaskBtn projectId={slug}/>
+                    <CreateTaskBtn projectId={slug}
+                                   onConfirm={() => {
+                                       refetchTask();
+                                       setOptions('task');
+                                   }}
+                    />
                     <AddProjectMemberBtn project={project} slug={slug} onConfirm={() => {
                         refetchFn();
                         setOptions('member');
@@ -61,9 +69,15 @@ const ProjectOptionBtn = ({slug, project}: ProjectOptionBtnProps) => {
                 </div>
             </div>
 
-            {options === 'task' ? (
-                    <TaskTable slug={slug}/>)
-                : <ProjectMemberTable slug={slug} onRefetchReady={(ref) => setRefetchFn(() => ref)}/>
+            {options === 'task'
+                ? <TaskTable
+                    slug={slug}
+                    onRefetchReady={(ref) => setRefetchTask(() => ref)}
+                />
+                : <ProjectMemberTable
+                    slug={slug}
+                    onRefetchReady={(ref) => setRefetchFn(() => ref)}
+                />
             }
         </>
     );
