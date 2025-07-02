@@ -1,8 +1,10 @@
 import {z} from "zod";
 import {ObjectIdSchema, PrioritySchema, StatusSchema} from "./project";
+import {assetSchema} from "@/model/asset";
 
 // Subtask schema
 const SubtaskSchema = z.object({
+    _id: ObjectIdSchema,
     title: z.string().min(1, "Subtask title is required"),
     description: z.string().min(1, "Subtask description is required"),
     isCompleted: z.boolean().optional().default(false)
@@ -27,9 +29,11 @@ export const TaskFormSchema = z.object({
         z.object({
             _id: ObjectIdSchema,
             fullName: z.string(),
+            avatar: z.string(),
         }),
         z.string()
     ]).optional(),
+    assets: z.array(assetSchema).optional(),
     status: StatusSchema.default('todo'),
     priority: PrioritySchema.default('medium'),
     startDate: z.string(),
@@ -43,9 +47,11 @@ export const TaskSchema = TaskFormSchema.extend({
     _id: ObjectIdSchema.optional(),
     owner: z.object({
         _id: ObjectIdSchema,
-        fullName: z.string()
+        fullName: z.string(),
+        avatar: z.string(),
     }),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
 });
+
 export type Task = z.infer<typeof TaskSchema>;

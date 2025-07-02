@@ -7,10 +7,11 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement | HTMLTextArea
     name: string;
     isFocused?: boolean;
     children?: React.ReactNode;
+    labelType?: 'inline' | 'block';
 }
 
 const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
-    ({name, children, defaultValue, placeholder = name, type = 'text', isFocused = 'false', ...props}, ref) => {
+    ({name, children, defaultValue, placeholder = name, type = 'text', isFocused = false, labelType = 'block', ...props}, ref) => {
 
         const inputRef = useRef<HTMLInputElement>(null);
 
@@ -21,11 +22,11 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
         }, [isFocused, inputRef]);
 
         return (
-            <div className='flex flex-col gap-2 mb-2 min-w-60'>
-                <label htmlFor={name}>{children}</label>
+            <div className={`flex gap-2 mb-2 min-w-60 ${labelType === 'block' ? ' flex-col' : 'items-center gap-x-4'}`}>
+                <label className={labelType === 'inline' ? 'w-[8ch] text-sm text-stone-600': ''} htmlFor={name}>{children}</label>
                 {type === 'textarea' ? (
                     <textarea
-                        className='p-2 rounded-sm bg-gray-50 h-30 resize-none'
+                        className='p-2 rounded-sm bg-gray-50 h-30 resize-y shadowm-sm'
                         id={name}
                         name={name}
                         placeholder={capitalize(placeholder)}
@@ -33,7 +34,7 @@ const InputField = React.forwardRef<HTMLInputElement, InputFieldProps>(
                         {...props}/>
                 ) : (
                     <input
-                        className='p-2 rounded-sm bg-gray-50'
+                        className='p-2 rounded-sm bg-gray-50 shadowm-sm text-sm'
                         type={type}
                         id={name}
                         name={name}

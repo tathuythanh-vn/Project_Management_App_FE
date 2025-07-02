@@ -13,7 +13,7 @@ const CreateProjectButon = ({onCreate}: CreateProjectButonProps) => {
 
     return (
         <>
-            <Modal isOpened={isOpened} onClose={() => setIsOpened(false)}>
+            <Modal isOpened={isOpened} onClose={() => setIsOpened(false)} style={{width: 'fit-content', maxWidth: '95%'}}>
                 <CreateProjectForm onClose={() => {
                     setIsOpened(false);
                     onCreate();

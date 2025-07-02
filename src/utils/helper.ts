@@ -24,3 +24,11 @@ export function formatToMonthWeekDay(firstDate: Date, secondDate: Date): string 
 
     return `${pad(months)}M : ${pad(weeks)}W : ${pad(days)}D`;
 }
+
+export function formatFileSize(bytes: number): string {
+    if (bytes === 0) return "0 Bytes";
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    const formatted = (bytes / Math.pow(1024, i)).toFixed(2);
+    return `${formatted} ${sizes[i]}`;
+}

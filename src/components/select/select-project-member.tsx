@@ -1,7 +1,6 @@
 'use client'
 
 import {Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {getTeamMembers, getTeams} from "@/service/team";
 import {Member, Team} from '@/model/team';
 import useFetch from "@/hooks/use-fetch";
 import {useCallback} from "react";
@@ -19,7 +18,7 @@ const SelectProjectMember = ({name, defaultValue, projectId}: SelectProjectMembe
     const {dataFetched: options} = useFetch<Member>(fetchProjectMembersFn, [])
 
     return (
-        <Select name={name}>
+        <Select name={name} value={defaultValue}>
             <SelectTrigger className="w-[250px] bg-[#F9FAFB] p-2 border-0">
                 <SelectValue placeholder="Select Assignee"/>
             </SelectTrigger>

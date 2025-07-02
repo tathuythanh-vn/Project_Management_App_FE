@@ -10,6 +10,8 @@ import {useAuth} from "@/context/auth-context";
 import AlertConfirm from "../../popup/alert-confirm";
 import AddProjectMemberBtn from "@/components/project/add-project-member-btn";
 import EditProjectMemberBtn from "@/components/project/edit-project-member-btn";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import React from "react";
 
 interface ColumnsProps {
     slug: string;
@@ -48,9 +50,21 @@ export const createColumns = ({ slug, refetch, deleteHandler }: ColumnsProps): C
     {
         accessorKey: "fullName",
         header: "Name",
-        cell: ({row}) => (
-            <div className="capitalize">{row.getValue("fullName")}</div>
-        ),
+        cell: ({row}) => {
+            const member = row.original;
+
+            const {avatar, fullName} = member;
+
+            return (
+                <div className="flex items-center gap-2">
+                    <Avatar>
+                        <AvatarImage src={`${process.env.NEXT_PUBLIC_FILE_URL}${avatar}`}/>
+                        <AvatarFallback>{fullName.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <span className="capitalize">{fullName}</span>
+                </div>
+            )
+        },
     },
     {
         accessorKey: "email",

@@ -73,3 +73,13 @@ export const deleteTeamMember = async (teamId: string, userId: string) => {
         }
     })
 }
+
+export const getTeamMemberStats = async () => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/team/member-stats`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+}

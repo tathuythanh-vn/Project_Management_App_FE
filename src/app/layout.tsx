@@ -39,7 +39,7 @@ export default function RootLayout({children}: Readonly<{
             className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${nunito.variable} antialiased`}>
         <AuthProvider>
             {children}
-            <Toaster/>
+            <Toaster position="top-right" richColors={true} />
         </AuthProvider>
         </body>
         </html>

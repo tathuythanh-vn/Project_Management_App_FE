@@ -91,7 +91,7 @@ const TeamTable = ({slug}: TeamTableProps) => {
                                 ))
                             ) : <Badge variant={'destructive'}>Not assigned</Badge>}
                         </td>
-                        <td>
+                        <td className={'pr-4'}>
                             <div className={'flex gap-2'}>
                                 {(member.role !== 'owner' && user?.userRole === 'manager') && (
                                     <>
