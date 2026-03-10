@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Next.js build output
+.next
+out
+
+# Environment files
+.env
+.env*.local
+.env.development
+.env.production
+
+# Version control
+.git
+.gitignore
+
+# Docker files themselves
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Editors and OS files
+.vscode
+*.swp
+.DS_Store
+npm-debug.log
+
+# Scripts or temporary artifacts (if any)
+/scripts 
